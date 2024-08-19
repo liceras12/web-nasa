@@ -4,25 +4,39 @@ import "../styles/style.css";
 import Navbar from './NavBar';
 import Footer from './Footer';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout = ({ children }) => {
   const [backgroundImage, setBackgroundImage] = useState<string>('');
 
-  useEffect(() => {
-    const fetchNasaImage = async () => {
-      try {
-        const apiKey = '5BWBVkkvcjGzJTy7M0IiWltbddqJ2Vu8gnJ2p3eh';
-        const response = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&hd=true`);
-        setBackgroundImage(response.data.url);
-      } catch (error) {
+  const fetchNasaImage = async (retries = 3, delay = 1000) => {
+    const apiKey = 'mS1gpSObMBiGi6sQHUJYYyGCdGEeV3Pwvwakq0lY';
+    try {
+      const response = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&hd=true`);
+      const imageUrl = response.data.url;
+      const today = new Date().toISOString().split('T')[0];
+
+      localStorage.setItem('nasaImage', imageUrl);
+      localStorage.setItem('nasaImageDate', today);
+      setBackgroundImage(imageUrl);
+    } catch (error) {
+      if (retries > 0 && error.response && error.response.status === 429) {
+        console.warn(`Retrying in ${delay}ms...`);
+        setTimeout(() => fetchNasaImage(retries - 1, delay * 2), delay);
+      } else {
         console.error('Error fetching NASA image of the day:', error);
       }
-    };
+    }
+  };
 
-    fetchNasaImage();
+  useEffect(() => {
+    const cachedImage = localStorage.getItem('nasaImage');
+    const cachedDate = localStorage.getItem('nasaImageDate');
+    const today = new Date().toISOString().split('T')[0];
+
+    if (cachedImage && cachedDate === today) {
+      setBackgroundImage(cachedImage);
+    } else {
+      fetchNasaImage();
+    }
   }, []);
 
   return (
@@ -38,30 +52,5 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </div>
   );
 };
-
-
-
-
-
- /* return (
-    <div
-    className="nasa-background"
-    style={{ backgroundImage: `url(${imageUrl})` }}
-  >
-   
-
-    <main className="main">
-      <section className="section">
-        <h2>Bienvenido a nuestra página</h2>
-        <p>
-          Disfruta de la imagen del día proporcionada por la NASA mientras exploras nuestra web.
-        </p>
-      </section>
-    </main>
-
-    
-  </div>
-  );
-};*/
 
 export default Layout;

@@ -2,12 +2,22 @@ import React, { useContext } from 'react';
 import Layout from './Components/Layout';
 import HomePage from './Pages/HomePage';
 import "./styles/style.css";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import EarthEventTracker from './Pages/EarthEventTracker';
+import NearEarthObjects from './Pages/NearEarthObjects';
 
 export default function App() {
   return (
-    <Layout>
-      <HomePage />
-    </Layout>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/earth-event-tracker" element={<EarthEventTracker />} />
+          <Route path="/near-earth-objects" element={<NearEarthObjects />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 

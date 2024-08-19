@@ -12,7 +12,8 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const fetchApodData = async () => {
       try {
-        const apiKey = '5BWBVkkvcjGzJTy7M0IiWltbddqJ2Vu8gnJ2p3eh';
+        //const apiKey = '5BWBVkkvcjGzJTy7M0IiWltbddqJ2Vu8gnJ2p3eh';
+        const apiKey = 'mS1gpSObMBiGi6sQHUJYYyGCdGEeV3Pwvwakq0lY';
         const response = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
         setApodData({
           title: response.data.title,
