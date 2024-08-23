@@ -18,16 +18,15 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* height: 700px; */ /* Elimina o comenta esta línea */
-  min-height: 700px; /* Opcional: asegura una altura mínima */
+  min-height: 700px;
   width: 100%;
-  border: 5px solid black;
+
   display: flex;
   flex-direction: column;
 }
 
 .header {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.56);
   padding: 2px;
   color: white;
   text-align: center;
@@ -87,21 +86,27 @@ justify-content: center;
 }
 
 .infoCapsule {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 35px;
   padding: 10px;
   color: white;
   text-align: justify;
   justify-items: right;
   float: right;
-  margin: 10px;
+  margin: 20px;
 }
 
 @media (min-width: 768px) {
   .infoCapsule {
-    width: 25%;
+    width: 30%;
     float: right;
   }
+}
+.grandTitle{
+  font-size: xx-large;
+  color: white;
+  font-weight: bold;
+  text-align: center;
 }
 
 .subTitle {
@@ -125,11 +130,54 @@ justify-content: center;
   align-items: center;
 }
 
+.content{
+  position: relative;
+  z-index: 2; /* Asegura que el contenido esté por encima de la marca de agua */
+  padding: 20px;
+}
+
 .contentCard {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 25px;
   padding: 10px;
   color: white;
   text-align: start;
-  width: 50vh;
+  width: 40%;
+}
+
+.frame{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: space-around;
+}
+
+.nasa-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: auto;
+  opacity: 0.2;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.326);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }

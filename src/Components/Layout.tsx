@@ -3,7 +3,7 @@ import axios from "axios";
 import "../styles/style.css";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
-import HomePage from "../Pages/HomePage"
+import Home from "./Home";
 
 const Layout = ({ children }) => {
   const [backgroundImage, setBackgroundImage] = useState<string>("");
@@ -46,12 +46,16 @@ const Layout = ({ children }) => {
     <div className="general">
       <div className="nasa-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
         <Navbar />
-        <HomePage/>
+        <Home/>
       </div>
-      <div className="contentCard">
+      <div className="content">
+      <img
+          src="https://www.nasa.gov/wp-content/themes/nasa/assets/images/nasa-logo.svg" 
+          alt="NASA Watermark"
+          className="nasa-watermark"
+        />
         <main>{children}</main>
       </div>
-      
         <Footer />
     </div>
   );
