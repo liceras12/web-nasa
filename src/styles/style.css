@@ -1,103 +1,135 @@
-body{
-    margin: 0;
-    padding: 0;
-    height: auto;
-    width: 100%;
-  }
-  
-  .nasa-background {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 800px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2px;
-    color: white;
-    text-align: center;
-  }
-  
-  .title {
-    margin: 0;
-    font-size: 2.5em;
-  }
-  
-  .nav-list {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content:space-around;
-    margin-top: 10px;
-  }
-  
-  .nav-item {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 27px;
-  }
-  
-  .main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: white;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .section {
-    max-width: 600px;
-  }
-  
-  .footer {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    color: white;
-    align-content: baseline;
-    text-align: center;
-  }
-  
-  .infoCapsule{
-    padding: 10px;
-    color: white;
-    text-align: justify;
-    justify-items: right;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.general {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.nasa-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* height: 700px; */ /* Elimina o comenta esta línea */
+  min-height: 700px; /* Opcional: asegura una altura mínima */
+  width: 100%;
+  border: 5px solid black;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px;
+  color: white;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 3.0em;
+  font-family: 'Franklin Gothic Medium';
+}
+
+.logo{
+display: flex;
+flex-direction: row;
+text-align: center;
+justify-content: center;
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 27px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.section {
+  max-width: 600px;
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.7);
+  min-width: 100vh;
+  padding: 10px;
+  color: white;
+  align-content: baseline;
+  text-align: center;
+}
+
+.infoCapsule {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 10px;
+  color: white;
+  text-align: justify;
+  justify-items: right;
+  float: right;
+  margin: 10px;
+}
+
+@media (min-width: 768px) {
+  .infoCapsule {
+    width: 25%;
     float: right;
-    margin: 10px;
   }
+}
 
-  @media (min-width: 768px) {
-    .infoCapsule {
-      width: 25%;
-      float: right;
-    }
-  }
+.subTitle {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
 
-  .subTitle{
-    font-size: 24px;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-  }
+.textContent {
+  font-size: 16px;
+  color: white;
+}
 
-  .textContent{
-    font-size: 16px;
-    color: white;
-  }
+.pFormat {
+  color: white;
+  font-size: medium;
+}
 
-  .pFormat{
-    color: white;
-    font-size: medium;
-  }
+.centre {
+  align-items: center;
+}
 
-  .centre{
-    align-items: center;
-  }
+.contentCard {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  padding: 10px;
+  color: white;
+  text-align: start;
+  width: 50vh;
+}

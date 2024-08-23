@@ -90,7 +90,7 @@ const NearEarthObjects: React.FC = () => {
   }, []);
 
   return (
-    <div className="nasa-background">
+    <div>
       <h2 className='center'>Near-Earth Objects</h2>
       <ul>
         {asteroids.map(asteroid => (
