@@ -1,28 +1,65 @@
-import React from "react";
-import useEarthEvents from "../hooks/useEarthEvents"; // Ajusta la ruta según la ubicación del hook
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import LeafletMap from "../hooks/useLeafletMap";
+
+interface EventCategory {
+  id: string;
+  title: string;
+}
+
+interface Event {
+  id: string;
+  title: string;
+  categories: EventCategory[];
+  geometry: {
+    magnitudeValue?: number;
+    magnitudeUnit?: string;
+    date: string;
+    type: string;
+    coordinates: [number, number];
+  }[];
+}
 
 const EarthEventTracker: React.FC = () => {
-  const { events, currentPage, handleNextPage, handlePreviousPage } = useEarthEvents();
+  const [events, setEvents] = useState<Event[]>([]);
+  const [cachedEvents, setCachedEvents] = useState<Event[][]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
-  const categoryImageMap: { [key: string]: string } = {
-    Earthquake: "earthquake.jpg",
-    Typhoon: "typhoon.jpg",
-    SevereStorms: "severeStorm.jfif",
-    Tornado: "tornado.jpg",
-    Flood: "flood.jpg",
-    Wildfires: "wildfire.jpg"
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(
+          "https://eonet.gsfc.nasa.gov/api/v3/events"
+        );
+        const fetchedEvents: Event[] = response.data.events;
+
+        const pages: Event[][] = [];
+        for (let i = 0; i < fetchedEvents.length; i += 5) {
+          pages.push(fetchedEvents.slice(i, i + 5));
+        }
+
+        setCachedEvents(pages);
+        setEvents(pages[0] || []);
+      } catch (error) {
+        console.error("Error fetching EONET events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleNextPage = () => {
+    if (currentPage < cachedEvents.length - 1) {
+      setCurrentPage(currentPage + 1);
+      setEvents(cachedEvents[currentPage + 1]);
+    }
   };
 
-  const getImageForCategory = (categories: EventCategory[]) => {
-    for (const category of categories) {
-      const normalizedCategory = category.title.replace(/\s+/g, '').replace(/\b\w/g, char => char.toUpperCase());
-      
-      const imageName = categoryImageMap[normalizedCategory];
-      if (imageName) {
-        return `/Images/${imageName}`;
-      }
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+      setEvents(cachedEvents[currentPage - 1]);
     }
-    return `/Images/default.jpg`;
   };
 
   return (
@@ -46,18 +83,15 @@ const EarthEventTracker: React.FC = () => {
                   <strong>Coordinates:</strong>{" "}
                   {event.geometry[0].coordinates.join(", ")}
                 </p>
-                {event.geometry[0].magnitudeValue && (
-                  <p>
-                    <strong>Magnitude:</strong> {event.geometry[0].magnitudeValue}{" "}
-                    {event.geometry[0].magnitudeUnit}
-                  </p>
-                )}
-                <img
-                src={getImageForCategory(event.categories)}
-                alt={`Image for ${event.title}`}
-                className="w-24 h-24 mr-4"
-                width={200}
-              />
+                {}
+                <LeafletMap
+                  latitude={event.geometry[0].coordinates[1]}
+                  longitude={event.geometry[0].coordinates[0]}
+                  width="400px"
+                  height="300px"
+                  name={event.title}
+                  category={event.categories.map((cat) => cat.title).join(", ")}
+                />
               </div>
             </li>
           ))}
@@ -73,7 +107,7 @@ const EarthEventTracker: React.FC = () => {
           </button>
           <button
             onClick={handleNextPage}
-            disabled={events.length === 0}
+            disabled={currentPage === cachedEvents.length - 1}
             className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
           >
             Next

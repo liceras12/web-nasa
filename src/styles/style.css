@@ -1,3 +1,5 @@
+@import "leaflet/dist/leaflet.css";
+
 html,
 body {
   margin: 0;
@@ -137,7 +139,7 @@ justify-content: center;
 }
 
 .contentCard {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.55);
   border-radius: 25px;
   padding: 10px;
   color: white;
