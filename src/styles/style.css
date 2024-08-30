@@ -80,7 +80,7 @@ justify-content: center;
 
 .footer {
   background-color: rgba(0, 0, 0, 0.7);
-  min-width: 100vh;
+  min-width: 100%;
   padding: 10px;
   color: white;
   align-content: baseline;

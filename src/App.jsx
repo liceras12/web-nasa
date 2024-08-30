@@ -5,6 +5,7 @@ import "./styles/style.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import EarthEventTracker from './Pages/EarthEventTracker';
 import NearEarthObjects from './Pages/NearEarthObjects';
+import SpaceWeather from './Pages/SpaceWeather';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/earth-event-tracker" element={<EarthEventTracker />} />
           <Route path="/near-earth-objects" element={<NearEarthObjects />} />
+          <Route path="/space-weather" element={<SpaceWeather />} />
         </Routes>
       </Layout>
     </Router>

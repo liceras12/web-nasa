@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useEarthEvents from "../hooks/useEarthEvents";
 import LeafletMap from "../hooks/useLeafletMap";
 
 interface EventCategory {
@@ -21,46 +22,14 @@ interface Event {
 }
 
 const EarthEventTracker: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [cachedEvents, setCachedEvents] = useState<Event[][]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const {
+    events,
+    currentPage,
+    handleNextPage,
+    handlePreviousPage,
+    cachedEvents,
+  } = useEarthEvents(); // Usa el hook personalizado
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(
-          "https://eonet.gsfc.nasa.gov/api/v3/events"
-        );
-        const fetchedEvents: Event[] = response.data.events;
-
-        const pages: Event[][] = [];
-        for (let i = 0; i < fetchedEvents.length; i += 5) {
-          pages.push(fetchedEvents.slice(i, i + 5));
-        }
-
-        setCachedEvents(pages);
-        setEvents(pages[0] || []);
-      } catch (error) {
-        console.error("Error fetching EONET events:", error);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  const handleNextPage = () => {
-    if (currentPage < cachedEvents.length - 1) {
-      setCurrentPage(currentPage + 1);
-      setEvents(cachedEvents[currentPage + 1]);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      setEvents(cachedEvents[currentPage - 1]);
-    }
-  };
 
   return (
     <div className="frame">
@@ -92,6 +61,7 @@ const EarthEventTracker: React.FC = () => {
                   name={event.title}
                   category={event.categories.map((cat) => cat.title).join(", ")}
                 />
+                <strong>_________________________________________________________________________________</strong>
               </div>
             </li>
           ))}

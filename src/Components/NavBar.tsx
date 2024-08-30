@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
       <nav>
         <ul className="nav-list">
           <li><a href="/earth-event-tracker" className="nav-item">Earth Natural Event Tracker</a></li>
-          <li><a href="#about" className="nav-item">Space Weather</a></li>
+          <li><a href="/space-weather" className="nav-item">Space Weather</a></li>
           <li><a href="#contact" className="nav-item">Mission Information</a></li>
           <li><a href="/near-earth-objects" className='nav-item'>Near-Earth Objects</a></li>
         </ul>
