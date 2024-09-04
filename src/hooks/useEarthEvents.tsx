@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+// hooks/useFetchEvents.ts
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface EventCategory {
@@ -19,7 +20,7 @@ interface Event {
   }[];
 }
 
-const useEarthEvents = (eventsPerPage: number = 5) => {
+const useEarthEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [cachedEvents, setCachedEvents] = useState<Event[][]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -33,8 +34,8 @@ const useEarthEvents = (eventsPerPage: number = 5) => {
         const fetchedEvents: Event[] = response.data.events;
 
         const pages: Event[][] = [];
-        for (let i = 0; i < fetchedEvents.length; i += eventsPerPage) {
-          pages.push(fetchedEvents.slice(i, i + eventsPerPage));
+        for (let i = 0; i < fetchedEvents.length; i += 5) {
+          pages.push(fetchedEvents.slice(i, i + 5));
         }
 
         setCachedEvents(pages);
@@ -45,7 +46,7 @@ const useEarthEvents = (eventsPerPage: number = 5) => {
     };
 
     fetchEvents();
-  }, [eventsPerPage]);
+  }, []);
 
   const handleNextPage = () => {
     if (currentPage < cachedEvents.length - 1) {
@@ -61,7 +62,13 @@ const useEarthEvents = (eventsPerPage: number = 5) => {
     }
   };
 
-  return { events, currentPage, handleNextPage, handlePreviousPage };
+  return {
+    events,
+    currentPage,
+    cachedEvents,
+    handleNextPage,
+    handlePreviousPage,
+  };
 };
 
 export default useEarthEvents;

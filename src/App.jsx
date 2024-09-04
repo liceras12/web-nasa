@@ -4,7 +4,9 @@ import HomePage from './Pages/HomePage';
 import "./styles/style.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import EarthEventTracker from './Pages/EarthEventTracker';
-import NearEarthObjects from './Pages/NearEarthObjects';
+import NearEarthObject from './Pages/NearEarthObject';
+import SpaceWeather from './Pages/SpaceWeather';
+import MissionInformation from './Pages/MissionInformation';
 
 export default function App() {
   return (
@@ -14,7 +16,9 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/earth-event-tracker" element={<EarthEventTracker />} />
-          <Route path="/near-earth-objects" element={<NearEarthObjects />} />
+          <Route path="/near-earth-object" element={<NearEarthObject />} />
+          <Route path="/space-weather" element={<SpaceWeather />} />
+          <Route path="/mission-information" element={<MissionInformation />} />
         </Routes>
       </Layout>
     </Router>
