@@ -12,35 +12,22 @@ const useNasaImage = () => {
       const response = await axios.get(
         `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&hd=true`
       );
-      const imageUrl = response.data.url;
-      const today = new Date().toISOString().split("T")[0];
-
-      localStorage.setItem("nasaImage", imageUrl);
-      localStorage.setItem("nasaImageDate", today);
+      const imageUrl = response.data.hdurl;
       setBackgroundImage(imageUrl);
       setLoading(false);
     } catch (error: any) {
       if (retries > 0 && error.response?.status === 429) {
-        console.warn(`Retrying in ${delay}ms...`);
+        console.warn(`Reintentando en ${delay}ms...`);
         setTimeout(() => fetchNasaImage(retries - 1, delay * 2), delay);
       } else {
-        setError("Error fetching NASA image of the day");
+        setError("Error al obtener la imagen del día de NASA");
         setLoading(false);
       }
     }
   };
 
   useEffect(() => {
-    const cachedImage = localStorage.getItem("nasaImage");
-    const cachedDate = localStorage.getItem("nasaImageDate");
-    const today = new Date().toISOString().split("T")[0];
-
-    if (cachedImage && cachedDate === today) {
-      setBackgroundImage(cachedImage);
-      setLoading(false);
-    } else {
-      fetchNasaImage();
-    }
+    fetchNasaImage();
   }, []);
 
   return { backgroundImage, loading, error };

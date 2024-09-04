@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useEarthEvents from "../hooks/useEarthEvents";
-import LeafletMap from "../hooks/useLeafletMap";
+import LeafletMap from "../Components/LeafletMap";
 
 interface EventCategory {
   id: string;
@@ -28,7 +28,7 @@ const EarthEventTracker: React.FC = () => {
     handleNextPage,
     handlePreviousPage,
     cachedEvents,
-  } = useEarthEvents(); // Usa el hook personalizado
+  } = useEarthEvents();
 
 
   return (

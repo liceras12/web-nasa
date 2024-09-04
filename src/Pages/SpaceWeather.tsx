@@ -51,7 +51,7 @@ const SpaceWeather: React.FC = () => {
                 : "N/A"}
             </p>
             <p>
-              <a href={event.link} target="_blank" rel="noopener noreferrer">
+              <a href={event.link} target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>
                 View more details
               </a>
             </p>
@@ -70,15 +70,15 @@ const SpaceWeather: React.FC = () => {
                 : "N/A"}
             </p>
             <p>
-              <strong>KP Index:</strong> {event.allKpIndex ? event.allKpIndex
-                    .map((inst: any) => inst.kpIndex)
-                    .join(", ")
+              <strong>KP Index:</strong>{" "}
+              {event.allKpIndex
+                ? event.allKpIndex.map((inst: any) => inst.kpIndex).join(", ")
                 : "N/A"}
             </p>
             <p>
-              <strong>Source:</strong> {event.allKpIndex ? event.allKpIndex
-                    .map((inst: any) => inst.source)
-                    .join(", ")
+              <strong>Source:</strong>{" "}
+              {event.allKpIndex
+                ? event.allKpIndex.map((inst: any) => inst.source).join(", ")
                 : "N/A"}
             </p>
           </>
@@ -248,30 +248,45 @@ const SpaceWeather: React.FC = () => {
         <h1 className="grandTitle">Space Weather Information</h1>
 
         <div>
-        <ul>
-            <li><strong>Coronal Mass Ejection (CME)</strong></li>
-            <li><strong>Geomagnetic Storm (GST)</strong></li>
-            <li><strong>Interplanetary Shock (IPS)</strong></li>
-            <li><strong>Solar Flare (FLR)</strong></li>
-            <li><strong>Solar Energetic Particle (SEP)</strong></li>
-            <li><strong>Magnetopause Crossing (MPC)</strong></li>
-            <li><strong>Radiation Belt Enhancement (RBE)</strong></li>
-            <li><strong>Hight Speed Stream (HSS)</strong></li>
-        </ul>
-      </div>
-        <div className="button-container">
-          {eventTypes.map((type) => (
-            <button
-              key={type}
-              onClick={() => setSelectedEventType(type)}
-              className={`px-4 py-2 m-1 ${
-                selectedEventType === type ? "bg-green-500" : "bg-blue-500"
-              } text-white rounded`}
-            >
-              {type}
-            </button>
-          ))}
+          <ul>
+            <li>
+              <strong>Coronal Mass Ejection (CME)</strong>
+            </li>
+            <li>
+              <strong>Geomagnetic Storm (GST)</strong>
+            </li>
+            <li>
+              <strong>Interplanetary Shock (IPS)</strong>
+            </li>
+            <li>
+              <strong>Solar Flare (FLR)</strong>
+            </li>
+            <li>
+              <strong>Solar Energetic Particle (SEP)</strong>
+            </li>
+            <li>
+              <strong>Magnetopause Crossing (MPC)</strong>
+            </li>
+            <li>
+              <strong>Radiation Belt Enhancement (RBE)</strong>
+            </li>
+            <li>
+              <strong>Hight Speed Stream (HSS)</strong>
+            </li>
+          </ul>
         </div>
+        <div className="button-container flex flex-wrap gap-2">
+  {eventTypes.map((type) => (
+    <button
+      key={type}
+      onClick={() => setSelectedEventType(type)}
+      disabled={selectedEventType === type}
+      className={`button ${selectedEventType === type ? "selected" : ""}`}
+    >
+      {type}
+    </button>
+  ))}
+</div>
 
         {loading ? (
           <p>Loading space weather data...</p>
@@ -287,7 +302,9 @@ const SpaceWeather: React.FC = () => {
                 className="mb-4 p-4 border rounded bg-gray-100 flex items-center"
               >
                 <div>{renderEventDetails(event)}</div>
-                <strong>____________________________________________________________________________________</strong>
+                <strong>
+                  ____________________________________________________________________________________
+                </strong>
               </li>
             ))}
           </ul>
