@@ -1,0 +1,121 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import LeafletMap from "../hooks/useLeafletMap";
+
+interface EventCategory {
+  id: string;
+  title: string;
+}
+
+interface Event {
+  id: string;
+  title: string;
+  categories: EventCategory[];
+  geometry: {
+    magnitudeValue?: number;
+    magnitudeUnit?: string;
+    date: string;
+    type: string;
+    coordinates: [number, number];
+  }[];
+}
+
+const EarthEventTracker: React.FC = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [cachedEvents, setCachedEvents] = useState<Event[][]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(
+          "https://eonet.gsfc.nasa.gov/api/v3/events"
+        );
+        const fetchedEvents: Event[] = response.data.events;
+
+        const pages: Event[][] = [];
+        for (let i = 0; i < fetchedEvents.length; i += 5) {
+          pages.push(fetchedEvents.slice(i, i + 5));
+        }
+
+        setCachedEvents(pages);
+        setEvents(pages[0] || []);
+      } catch (error) {
+        console.error("Error fetching EONET events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const handleNextPage = () => {
+    if (currentPage < cachedEvents.length - 1) {
+      setCurrentPage(currentPage + 1);
+      setEvents(cachedEvents[currentPage + 1]);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+      setEvents(cachedEvents[currentPage - 1]);
+    }
+  };
+
+  return (
+    <div className="frame">
+      <div className="contentCard">
+        <h1 className="grandTitle">Earth Natural Event Tracker</h1>
+        <ul>
+          {events.map((event) => (
+            <li key={event.id} className="mb-4 p-4 border rounded bg-gray-100 flex items-center">
+              <div>
+                <h2 className="text-2xl font-semibold">{event.title}</h2>
+                <p>
+                  <strong>Category:</strong>{" "}
+                  {event.categories.map((cat) => cat.title).join(", ")}
+                </p>
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {new Date(event.geometry[0].date).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Coordinates:</strong>{" "}
+                  {event.geometry[0].coordinates.join(", ")}
+                </p>
+                {}
+                <LeafletMap
+                  latitude={event.geometry[0].coordinates[1]}
+                  longitude={event.geometry[0].coordinates[0]}
+                  width="400px"
+                  height="300px"
+                  name={event.title}
+                  category={event.categories.map((cat) => cat.title).join(", ")}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="button-container">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 0}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === cachedEvents.length - 1}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EarthEventTracker;
